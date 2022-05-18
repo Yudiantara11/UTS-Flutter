@@ -1,32 +1,57 @@
 import 'package:flutter/material.dart';
-import 'home.dart';
+import 'package:flutter_project1/home1.dart';
+
+import 'Settings.dart';
+
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+    return new MaterialApp(
+      home: MyButtomNavigationBar(),
+    );
+  }
+}
+
+class MyButtomNavigationBar extends StatefulWidget {
+  const MyButtomNavigationBar({Key? key}) : super(key: key);
+
+  @override
+  State<MyButtomNavigationBar> createState() => _MyButtomNavigationBarState();
+}
+
+class _MyButtomNavigationBarState extends State<MyButtomNavigationBar> {
+  int _currentIndex = 0;
+  final List<Widget> _children = [
+    HomePage(),
+    SettingsPage(),
+  ];
+
+  void onTappedBar(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      body: _children[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: onTappedBar,
+        currentIndex: _currentIndex,
+        items: [
+          BottomNavigationBarItem(icon: new Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(
+              icon: new Icon(Icons.settings), label: "Settings"),
+        ],
       ),
-      home: homePage(),
     );
   }
 }
